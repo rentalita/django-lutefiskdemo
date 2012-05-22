@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<div class="hero-unit">
+  <h1>
+    <a href="{% url lutefiskdemo_index %}">
+      Lutefisk Demo
+    </a>
+  </h1>
+  <p>
+    500 {% trans "Oops!" %}
+  </p>
+</div>
+{% endblock %}

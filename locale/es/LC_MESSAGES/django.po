@@ -1,0 +1,54 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-02-03 18:21+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: src/python/layoutdemo/settings.py:135
+msgid "a very long time"
+msgstr "un largo tiempo"
+
+#: src/python/layoutdemo/default/templates/default/index.html:8
+msgid "Welcome to"
+msgstr "Bienvenido a"
+
+#: var/www/templates/404.html:12 var/www/templates/500.html:12
+msgid "Oops!"
+msgstr "¡Oy!"
+
+#: var/www/templates/base.html:8 var/www/templates/base.html.py:107
+msgid "is made by"
+msgstr "es hecho por"
+
+#: var/www/templates/base.html:10
+msgid "Hello"
+msgstr "Hola"
+
+#: var/www/templates/base.html:39
+msgid "Dashboard"
+msgstr "Dashboard"
+
+#: var/www/templates/base.html:48
+msgid "Sign Out"
+msgstr "Salir"
+
+#: var/www/templates/base.html:54
+msgid "Sign Up"
+msgstr "Regístrate"
+
+#: var/www/templates/base.html:59
+msgid "Sign In"
+msgstr "Ingresar"

@@ -1,0 +1,6 @@
+*.pyc
+*~
+.DS_Store
+.coverage
+coverage/
+var/cache/lighttpd/compress/

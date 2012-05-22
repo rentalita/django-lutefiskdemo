@@ -1,0 +1,121 @@
+PACKAGE="python-django-lutefiskdemo"
+export PACKAGE
+
+VERSION="0.0.1"
+export VERSION
+
+PYTHON="$(which python)"
+export PYTHON
+
+PYTHONFLAGS="-tt"
+
+if [ ! "${LUTEFISKDEMO_DEBUG}" = "" ]; then
+    PYTHONFLAGS="${PYTHONFLAGS} -m pdb"
+fi
+
+export PYTHONFLAGS
+
+PYLINT="$(which pylint)"
+export PYLINT
+
+PYLINTFLAGS=
+export PYLINTFLAGS
+
+NOSETESTS="$(which nosetests)"
+export NOSETESTS
+
+NOSETESTSFLAGS="--with-coverage --cover-erase --cover-html"
+export NOSETESTSFLAGS
+
+LUTEFISKDEMO_HOME=$(cd "${LUTEFISKDEMO_HOME}"; pwd)
+export LUTEFISKDEMO_HOME
+
+LUTEFISKDEMO_BIN="${LUTEFISKDEMO_HOME}"/bin
+export LUTEFISKDEMO_BIN
+
+LUTEFISKDEMO_ETC="${LUTEFISKDEMO_HOME}"/etc
+export LUTEFISKDEMO_ETC
+
+LUTEFISKDEMO_LIB="${LUTEFISKDEMO_HOME}"/lib
+export LUTEFISKDEMO_LIB
+
+LUTEFISKDEMO_SRC="${LUTEFISKDEMO_HOME}"/src
+export LUTEFISKDEMO_SRC
+
+LUTEFISKDEMO_VAR="${LUTEFISKDEMO_HOME}"/var
+export LUTEFISKDEMO_VAR
+
+LUTEFISKDEMO_CACHE="${LUTEFISKDEMO_VAR}"/cache
+export LUTEFISKDEMO_CACHE
+
+LUTEFISKDEMO_DATA="${LUTEFISKDEMO_VAR}"/data
+export LUTEFISKDEMO_DATA
+
+LUTEFISKDEMO_DB="${LUTEFISKDEMO_VAR}"/db
+export LUTEFISKDEMO_DB
+
+LUTEFISKDEMO_LOG="${LUTEFISKDEMO_VAR}"/log
+export LUTEFISKDEMO_LOG
+
+LUTEFISKDEMO_RUN="${LUTEFISKDEMO_VAR}"/run
+export LUTEFISKDEMO_RUN
+
+LUTEFISKDEMO_WWW="${LUTEFISKDEMO_VAR}"/www
+export LUTEFISKDEMO_WWW
+
+PYTHONPATH="${LUTEFISKDEMO_LIB}"/python:"${PYTHONPATH}"
+export PYTHONPATH
+
+LUTEFISKDEMO_PYTHONFLAGS=
+export LUTEFISKDEMO_PYTHONFLAGS
+
+LUTEFISKDEMO_PYLINTFLAGS="
+    --rcfile=${LUTEFISKDEMO_ETC}/pylintrc
+"
+export LUTEFISKDEMO_PYLINTFLAGS
+
+LUTEFISKDEMO_NOSETESTSFLAGS="
+    --cover-html-dir=${LUTEFISKDEMO_HOME}/coverage
+    --cover-package=lutefiskdemo
+    -w ${LUTEFISKDEMO_SRC}/python/lutefiskdemo
+"
+export LUTEFISKDEMO_NOSETESTSFLAGS
+
+if [ ! -f "${LUTEFISKDEMO_HOME}"/setup.cfg ]; then
+    sed -e "s#\@PREFIX\@#${LUTEFISKDEMO_HOME}#g;" \
+        -e "s#\@PACKAGE\@#${PACKAGE}#g;" \
+        "${LUTEFISKDEMO_HOME}"/setup.cfg.in > "${LUTEFISKDEMO_HOME}"/setup.cfg
+fi
+
+if [ ! -f "${LUTEFISKDEMO_ETC}"/logrotate.conf ]; then
+    cp "${LUTEFISKDEMO_ETC}"/logrotate.conf.in "${LUTEFISKDEMO_ETC}"/logrotate.conf
+    for PATTERNS in $(env | grep "^LUTEFISKDEMO"); do
+        perl -pi -e '@xYz = split(/=/, "'${PATTERNS}'"); s#\@$xYz[0]\@#$xYz[1]#g;' \
+            "${LUTEFISKDEMO_ETC}"/logrotate.conf
+    done
+fi
+
+MAINTENANCE_MODE="$(realpath ${LUTEFISKDEMO_ETC}/lighttpd.conf | \
+    perl -wlne 'print $1 if /lighttpd-(\w+).conf/')"
+
+ASROOT=
+
+if [ "${MAINTENANCE_MODE}" = "production" ]; then
+    ASROOT="sudo"
+fi
+
+export ASROOT
+
+if [ ! "${LUTEFISKDEMO_TESTS}" = "" ]; then
+    DJANGO_SETTINGS_MODULE="lutefiskdemo.tests.settings"
+else
+    DJANGO_SETTINGS_MODULE="lutefiskdemo.${MAINTENANCE_MODE}"
+fi
+
+export DJANGO_SETTINGS_MODULE
+
+# Local Variables:
+# indent-tabs-mode: nil
+# mode: sh
+# End:
+# vim: ai et sw=4 ts=4
